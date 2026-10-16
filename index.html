@@ -79,6 +79,7 @@ const DEFAULT_PRODUCTS = [
 
 function showToast(msg, isError = false) {
   const box = document.getElementById('toastBox');
+  if(!box) return;
   const toast = document.createElement('div');
   toast.className = 'toast' + (isError ? ' error' : '');
   toast.innerHTML = (isError ? '⚠️ ' : '✅ ') + msg;
@@ -87,7 +88,7 @@ function showToast(msg, isError = false) {
   setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 250); }, 2500);
 }
 
-// FIREBASE INIT (Safe Wrapper)
+// FIREBASE INIT
 const firebaseConfig = {
   apiKey: "AIzaSyDIkg9dy09aBANFgIflOgtmA49FgIflOgt",
   authDomain: "shampan-restaurant.firebaseapp.com",
@@ -99,16 +100,17 @@ const firebaseConfig = {
 };
 
 let db = { sales:[], products:[], purchases:[], requests:[], stock:[] };
+
 try {
   if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
   const dbRef = firebase.database().ref('shampan_data');
   dbRef.on('value', (snapshot) => {
     const data = snapshot.val();
     if (data) { db = data; if(!db.requests) db.requests = []; if(!db.products) db.products = []; render(); }
-  }, (err) => { console.log('DB Notice:', err); });
+  });
   window.save = function() { dbRef.set(db); };
 } catch(e) {
-  window.save = function() { console.log('Local mode'); };
+  window.save = function() {};
 }
 
 const $ = s => document.querySelector(s), money = n => '৳'+Number(n||0).toLocaleString('en-BD'), esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]);
@@ -132,7 +134,7 @@ function render(){
 function renderSelectOptions(){
   const custom = (db.products||[]).map(x=>x.name);
   const allNames = [...new Set([...DEFAULT_PRODUCTS, ...custom])].sort((a,b)=>a.localeCompare(b, 'bn'));
-  const optionsHtml = '<option value="">পণ্য নির্বাচন করুন</option>' + allNames.link ? '' : allNames.map(n => `<option value="${esc(n)}">${esc(n)}</option>`).join('');
+  const optionsHtml = '<option value="">পণ্য নির্বাচন করুন</option>' + allNames.map(n => `<option value="${esc(n)}">${esc(n)}</option>`).join('');
   
   ['#purchaseProduct', '#chefSelectProduct', '#juiceSelectProduct'].forEach(id => {
     const el = $(id);
@@ -144,7 +146,7 @@ function renderSelectOptions(){
   });
 }
 
-// ROBUST CASE-INSENSITIVE LOGIN
+// LOGIN BUTTON HANDLER
 document.getElementById('loginBtn').onclick = function() {
   const u = (document.getElementById('shampanId').value || '').trim().toLowerCase();
   const p = (document.getElementById('shampanPw').value || '').trim();
