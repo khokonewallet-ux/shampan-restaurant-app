@@ -30,7 +30,7 @@
 <h2 style="margin-top:0;font-size:20px">Login</h2>
 <div style="display:grid;gap:12px">
   <label style="display:grid;gap:5px;font-size:12px;color:var(--muted)">Login ID
-    <input id="shampanId" placeholder="যেমন: owner01" autocomplete="off">
+    <input id="shampanId" placeholder="যেমন: owner01" autocapitalize="none" autocomplete="off">
   </label>
   <label style="display:grid;gap:5px;font-size:12px;color:var(--muted)">Password
     <input id="shampanPw" type="password" placeholder="Password">
@@ -87,7 +87,7 @@ function showToast(msg, isError = false) {
   setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 250); }, 2500);
 }
 
-// FIREBASE INIT
+// FIREBASE INIT (Safe Wrapper)
 const firebaseConfig = {
   apiKey: "AIzaSyDIkg9dy09aBANFgIflOgtmA49FgIflOgt",
   authDomain: "shampan-restaurant.firebaseapp.com",
@@ -98,16 +98,18 @@ const firebaseConfig = {
   appId: "1:242819003667:web:296423af6ee99cdd219se6"
 };
 
-if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
-const dbRef = firebase.database().ref('shampan_data');
 let db = { sales:[], products:[], purchases:[], requests:[], stock:[] };
-
-dbRef.on('value', (snapshot) => {
-  const data = snapshot.val();
-  if (data) { db = data; if(!db.requests) db.requests = []; if(!db.products) db.products = []; render(); }
-});
-
-function save(){ dbRef.set(db); }
+try {
+  if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+  const dbRef = firebase.database().ref('shampan_data');
+  dbRef.on('value', (snapshot) => {
+    const data = snapshot.val();
+    if (data) { db = data; if(!db.requests) db.requests = []; if(!db.products) db.products = []; render(); }
+  }, (err) => { console.log('DB Notice:', err); });
+  window.save = function() { dbRef.set(db); };
+} catch(e) {
+  window.save = function() { console.log('Local mode'); };
+}
 
 const $ = s => document.querySelector(s), money = n => '৳'+Number(n||0).toLocaleString('en-BD'), esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]);
 const today = new Date().toISOString().slice(0,10);
@@ -130,7 +132,7 @@ function render(){
 function renderSelectOptions(){
   const custom = (db.products||[]).map(x=>x.name);
   const allNames = [...new Set([...DEFAULT_PRODUCTS, ...custom])].sort((a,b)=>a.localeCompare(b, 'bn'));
-  const optionsHtml = '<option value="">পণ্য নির্বাচন করুন</option>' + allNames.map(n => `<option value="${esc(n)}">${esc(n)}</option>`).join('');
+  const optionsHtml = '<option value="">পণ্য নির্বাচন করুন</option>' + allNames.link ? '' : allNames.map(n => `<option value="${esc(n)}">${esc(n)}</option>`).join('');
   
   ['#purchaseProduct', '#chefSelectProduct', '#juiceSelectProduct'].forEach(id => {
     const el = $(id);
@@ -142,13 +144,13 @@ function renderSelectOptions(){
   });
 }
 
-// ULTRA-SIMPLE LOGIN HANDLER
+// ROBUST CASE-INSENSITIVE LOGIN
 document.getElementById('loginBtn').onclick = function() {
-  const u = (document.getElementById('shampanId').value || '').trim();
+  const u = (document.getElementById('shampanId').value || '').trim().toLowerCase();
   const p = (document.getElementById('shampanPw').value || '').trim();
 
   if(u === 'owner01' && p === 'Own@12345') {
-    showToast('লগইন সফল!');
+    showToast('Owner লগইন সফল!');
     document.getElementById('shampanLogin').style.display = 'none';
     document.getElementById('ownerLayout').style.display = 'grid';
   } else if(u === 'chef01' && p === 'Chef@12345') {
@@ -164,7 +166,7 @@ document.getElementById('loginBtn').onclick = function() {
     document.getElementById('chefTools').style.display = 'none';
     document.getElementById('juiceTools').style.display = 'block';
   } else {
-    showToast('ID বা Password ভুল!', true);
+    showToast('ID বা Password ভুল হয়েছে!', true);
   }
 };
 
