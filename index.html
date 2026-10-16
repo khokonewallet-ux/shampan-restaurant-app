@@ -29,10 +29,10 @@
 
 <section id="shampanLogin" class="card" style="max-width:440px;margin:30px auto;padding:20px">
 <h2 style="margin-top:0;font-size:20px">Login</h2>
-<form id="shampanLoginForm" style="display:grid;gap:12px"><label>Login ID<input id="shampanId" required autocomplete="username" placeholder="যেমন: chef01"></label><label>Password<input id="shampanPw" type="password" required autocomplete="current-password" placeholder="Password"></label><button type="submit" style="margin-top:5px">প্রবেশ করুন</button></form>
+<form id="shampanLoginForm" style="display:grid;gap:12px"><label>Login ID<input id="shampanId" required placeholder="যেমন: owner01"></label><label>Password<input id="shampanPw" type="password" required placeholder="Password"></label><button type="submit" style="margin-top:5px">প্রবেশ করুন</button></form>
 </section>
 
-<section id="roleTools" class="card" style="display:none;margin:16px;max-width:1100px;margin-left:auto;margin-right:auto"><div class="heading"><div><h2 id="roleTitle">Staff</h2></div><button class="secondary" type="button" onclick="shampanLogout()">Logout</button></div>
+<section id="roleTools" class="card" style="display:none;margin:16px;max-width:1100px;margin-left:auto;margin-right:auto"><div class="heading"><div><h2 id="roleTitle">Staff Panel</h2></div><button class="secondary" type="button" onclick="shampanLogout()">Logout</button></div>
 <div id="chefTools" style="display:none"><h3>Kitchen / Chef — বাজারের চাহিদা</h3><form id="chefRequestForm" class="form"><div class="field full"><label>পণ্যের নাম (বাছুন)</label><select name="name" id="chefSelectProduct" required><option value="">পণ্য নির্বাচন করুন</option></select></div><div class="field"><label>পরিমাণ</label><input name="qty" type="number" min="0.1" step="0.1" required></div><div class="field"><label>একক</label><select name="unit" id="chefUnit"><option>কেজি</option><option>লিটার</option><option>পিস</option><option>প্যাকেট</option><option>বস্তা</option></select></div><div class="field full"><label>নোট (ঐচ্ছিক)</label><input name="note" placeholder="যেমন: জরুরি"></div><div class="field full"><button type="submit">চাহিদা পাঠান</button></div></form></div>
 <div id="juiceTools" style="display:none"><h3>Juice Bar — বাজারের চাহিদা</h3><form id="juiceRequestForm" class="form"><div class="field full"><label>উপকরণের নাম (বাছুন)</label><select name="name" id="juiceSelectProduct" required><option value="">পণ্য নির্বাচন করুন</option></select></div><div class="field"><label>বর্তমান স্টক</label><input name="stock" type="number" min="0" step="0.1" required></div><div class="field"><label>প্রয়োজনীয় পরিমাণ</label><input name="qty" type="number" min="0.1" step="0.1" required></div><div class="field full"><label>একক</label><select name="unit" id="juiceUnit"><option>কেজি</option><option>লিটার</option><option>পিস</option><option>প্যাকেট</option></select></div><div class="field full"><button type="submit">চাহিদা পাঠান</button></div></form></div>
 </section>
@@ -135,6 +135,55 @@ function renderSelectOptions(){
   });
 }
 
+// LOGIN SYSTEM
+const SHAMPAN_DEFAULT_USERS = { 
+  owner: { id: 'owner01', pw: 'Own@12345' }, 
+  chef: { id: 'chef01', pw: 'Chef@12345' }, 
+  juice: { id: 'juice01', pw: 'Juice@12345' } 
+};
+
+const loginForm = $('#shampanLoginForm');
+if(loginForm) {
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const id = $('#shampanId').value.trim();
+    const pw = $('#shampanPw').value.trim();
+
+    let foundRole = null;
+    for (let key in SHAMPAN_DEFAULT_USERS) {
+      if (SHAMPAN_DEFAULT_USERS[key].id === id && SHAMPAN_DEFAULT_USERS[key].pw === pw) {
+        foundRole = key;
+        break;
+      }
+    }
+
+    if (!foundRole) {
+      showToast('ID বা Password সঠিক নয়', true);
+      return;
+    }
+
+    showToast('সফলভাবে লগইন হয়েছে!');
+    $('#shampanLogin').style.display = 'none';
+
+    if (foundRole === 'owner') {
+      $('#ownerLayout').style.display = 'grid';
+    } else {
+      $('#roleTools').style.display = 'block';
+      $('#chefTools').style.display = foundRole === 'chef' ? 'block' : 'none';
+      $('#juiceTools').style.display = foundRole === 'juice' ? 'block' : 'none';
+    }
+  });
+}
+
+function shampanLogout(){
+  $('#ownerLayout').style.display = 'none';
+  $('#roleTools').style.display = 'none';
+  $('#shampanLogin').style.display = 'block';
+  $('#shampanId').value = '';
+  $('#shampanPw').value = '';
+  showToast('লগআউট করা হয়েছে');
+}
+
 const pForm = $('#productForm');
 if(pForm) {
   pForm.addEventListener('submit', e => {
@@ -189,30 +238,7 @@ function renderCombinedRequests(){
   if(badge){ badge.textContent = pending.toLocaleString('bn-BD'); }
   const body = $('#notificationRows');
   if(!body) return;
-  body.innerHTML = (db.requests||[]).map(r => `<tr><td>${esc(r.date)}</td><td>${esc(r.role)}</td><td><b>${esc(r.name)}</b></td><td>${r.qty} ${esc(r.unit)}</td><td>${esc(r.note||'—')}</td><td>${esc(r.status)}</td><td>${r.status==='কেনা হয়েছে'?'সম্পন্ন':`<button type="button" onclick="completeRequest(${r.id})">কেনা হয়েছে</button>`}</td></tr>`).join('') || '<tr><td colspan="7" class="empty">কোনো চাহিদা নেই</td></tr>';
-}
-
-const SHAMPAN_DEFAULT_USERS = { owner:{id:'owner01',pw:'Own@12345'}, chef:{id:'chef01',pw:'Chef@12345'}, juice:{id:'juice01',pw:'Juice@12345'} };
-
-const lForm = $('#shampanLoginForm');
-if(lForm) {
-  lForm.addEventListener('submit', e => {
-    e.preventDefault();
-    const id = $('#shampanId').value.trim(), pw = $('#shampanPw').value;
-    const role = Object.keys(SHAMPAN_DEFAULT_USERS).find(k => SHAMPAN_DEFAULT_USERS[k].id===id && SHAMPAN_DEFAULT_USERS[k].pw===pw);
-    if(!role){ showToast('ID বা Password সঠিক নয়', true); return; }
-    showToast('লগইন হয়েছে!');
-    $('#shampanLogin').style.display = 'none';
-    if(role === 'owner'){ $('#ownerLayout').style.display = 'grid'; } 
-    else { $('#roleTools').style.display = 'block'; $('#chefTools').style.display = role==='chef'?'block':'none'; }
-  });
-}
-
-function shampanLogout(){
-  $('#ownerLayout').style.display = 'none';
-  $('#roleTools').style.display = 'none';
-  $('#shampanLogin').style.display = 'block';
-  showToast('লগআউট করা হয়েছে');
+  body.innerHTML = (db.requests||[]).map(r => `<tr><td>${esc(r.date)}</td><td>${esc(r.role)}</td><td><b>${esc(r.name)}</b></td><td>${r.qty} ${esc(r.unit)}</td><td>${esc(r.note||'—')}</td><td>${esc(r.status)}</td><td>${r.status==='কেনa হয়েছে'?'সম্পন্ন':`<button type="button" onclick="completeRequest(${r.id})">কেনা হয়েছে</button>`}</td></tr>`).join('') || '<tr><td colspan="7" class="empty">কোনো চাহিদা নেই</td></tr>';
 }
 </script>
 </body>
