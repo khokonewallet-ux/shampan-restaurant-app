@@ -11,7 +11,6 @@
 :root{--green:#143c2b;--green2:#1f6846;--gold:#e3c77b;--bg:#f4f7f4;--card:#fff;--text:#17251d;--muted:#68766d;--line:#e2e9e3;--red:#b93838}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:12px 16px;background:var(--green2);color:white;font-weight:650}button.secondary{background:#edf3ee;color:var(--green)}button.danger{background:#fff0ef;color:var(--red)}.shell{max-width:1100px;margin:auto;min-height:100vh}.top{background:var(--green);color:white;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:12px}.logo{height:42px;width:42px;background:var(--gold);color:var(--green);display:grid;place-items:center;border-radius:12px;font-size:20px;font-weight:bold}.brand h1{margin:0;font-size:20px;letter-spacing:1px}.brand p{margin:2px 0 0;color:#d1e2d5;font-size:11px}.badge{font-size:11px;background:#28513f;padding:5px 10px;border-radius:20px;color:#e3c77b;font-weight:bold}.layout{display:grid;grid-template-columns:200px 1fr;gap:16px;padding:16px}.nav{background:white;border:1px solid var(--line);border-radius:14px;padding:8px;height:max-content;position:sticky;top:12px}.nav button{width:100%;text-align:left;margin:3px 0;background:transparent;color:var(--text);font-weight:550;padding:10px;border-radius:8px}.nav button.active,.nav button:hover{background:#e7f2e9;color:var(--green)}main{min-width:0}.heading{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.heading h2{margin:0;font-size:21px}.muted{color:var(--muted);font-size:13px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}.stat .label{color:var(--muted);font-size:12px}.stat strong{display:block;font-size:22px;margin:5px 0 0}.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:12px;color:var(--muted);font-weight:600}input,select{width:100%;border:1px solid #d6e0d7;border-radius:10px;padding:11px 12px;background:#fff;color:var(--text);min-width:0}.actions{display:flex;gap:8px;margin-top:10px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap}th{font-size:11px;color:var(--muted);font-weight:700}.empty{color:var(--muted);text-align:center;padding:20px}.footer{padding:0 20px 20px;color:var(--muted);font-size:11px;text-align:center}.hidden{display:none!important}
 
-/* --- TOAST NOTIFICATION --- */
 #toastBox { position: fixed; top: 16px; right: 16px; z-index: 99999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
 .toast { background: #143c2b; color: white; padding: 12px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.15); opacity: 0; transform: translateY(-15px); transition: all 0.25s ease; border-left: 4px solid #e3c77b; }
 .toast.show { opacity: 1; transform: translateY(0); }
@@ -29,7 +28,11 @@
 
 <section id="shampanLogin" class="card" style="max-width:440px;margin:30px auto;padding:20px">
 <h2 style="margin-top:0;font-size:20px">Login</h2>
-<form id="shampanLoginForm" style="display:grid;gap:12px"><label>Login ID<input id="shampanId" required placeholder="যেমন: owner01"></label><label>Password<input id="shampanPw" type="password" required placeholder="Password"></label><button type="submit" style="margin-top:5px">প্রবেশ করুন</button></form>
+<div style="display:grid;gap:12px">
+  <label style="display:grid;gap:5px;font-size:12px;color:var(--muted)">Login ID<input id="shampanId" placeholder="যেমন: owner01"></label>
+  <label style="display:grid;gap:5px;font-size:12px;color:var(--muted)">Password<input id="shampanPw" type="password" placeholder="Password"></label>
+  <button type="button" onclick="doLogin()" style="margin-top:5px">প্রবেশ করুন</button>
+</div>
 </section>
 
 <section id="roleTools" class="card" style="display:none;margin:16px;max-width:1100px;margin-left:auto;margin-right:auto"><div class="heading"><div><h2 id="roleTitle">Staff Panel</h2></div><button class="secondary" type="button" onclick="shampanLogout()">Logout</button></div>
@@ -80,7 +83,7 @@ function showToast(msg, isError = false) {
   setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 250); }, 2500);
 }
 
-// --- FIREBASE CONFIGURATION ---
+// FIREBASE
 const firebaseConfig = {
   apiKey: "AIzaSyDIkg9dy09aBANFgIflOgtmA49FgIflOgt",
   authDomain: "shampan-restaurant.firebaseapp.com",
@@ -135,52 +138,43 @@ function renderSelectOptions(){
   });
 }
 
-// LOGIN SYSTEM
-const SHAMPAN_DEFAULT_USERS = { 
-  owner: { id: 'owner01', pw: 'Own@12345' }, 
-  chef: { id: 'chef01', pw: 'Chef@12345' }, 
-  juice: { id: 'juice01', pw: 'Juice@12345' } 
-};
+// DIRECT LOGIN FUNCTION (NO FORM SUBMIT)
+function doLogin() {
+  const idInput = $('#shampanId');
+  const pwInput = $('#shampanPw');
+  
+  if(!idInput || !pwInput) return;
+  
+  const id = idInput.value.trim().toLowerCase();
+  const pw = pwInput.value.trim();
 
-const loginForm = $('#shampanLoginForm');
-if(loginForm) {
-  loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const id = $('#shampanId').value.trim();
-    const pw = $('#shampanPw').value.trim();
-
-    let foundRole = null;
-    for (let key in SHAMPAN_DEFAULT_USERS) {
-      if (SHAMPAN_DEFAULT_USERS[key].id === id && SHAMPAN_DEFAULT_USERS[key].pw === pw) {
-        foundRole = key;
-        break;
-      }
-    }
-
-    if (!foundRole) {
-      showToast('ID বা Password সঠিক নয়', true);
-      return;
-    }
-
-    showToast('সফলভাবে লগইন হয়েছে!');
+  if (id === 'owner01' && pw === 'Own@12345') {
+    showToast('Owner হিসেবে লগইন হয়েছে!');
     $('#shampanLogin').style.display = 'none';
-
-    if (foundRole === 'owner') {
-      $('#ownerLayout').style.display = 'grid';
-    } else {
-      $('#roleTools').style.display = 'block';
-      $('#chefTools').style.display = foundRole === 'chef' ? 'block' : 'none';
-      $('#juiceTools').style.display = foundRole === 'juice' ? 'block' : 'none';
-    }
-  });
+    $('#ownerLayout').style.display = 'grid';
+  } else if (id === 'chef01' && pw === 'Chef@12345') {
+    showToast('Chef হিসেবে লগইন হয়েছে!');
+    $('#shampanLogin').style.display = 'none';
+    $('#roleTools').style.display = 'block';
+    $('#chefTools').style.display = 'block';
+    $('#juiceTools').style.display = 'none';
+  } else if (id === 'juice01' && pw === 'Juice@12345') {
+    showToast('Juice Bar হিসেবে লগইন হয়েছে!');
+    $('#shampanLogin').style.display = 'none';
+    $('#roleTools').style.display = 'block';
+    $('#chefTools').style.display = 'none';
+    $('#juiceTools').style.display = 'block';
+  } else {
+    showToast('ID বা Password ভুল হয়েছে!', true);
+  }
 }
 
 function shampanLogout(){
   $('#ownerLayout').style.display = 'none';
   $('#roleTools').style.display = 'none';
   $('#shampanLogin').style.display = 'block';
-  $('#shampanId').value = '';
-  $('#shampanPw').value = '';
+  if($('#shampanId')) $('#shampanId').value = '';
+  if($('#shampanPw')) $('#shampanPw').value = '';
   showToast('লগআউট করা হয়েছে');
 }
 
@@ -238,7 +232,7 @@ function renderCombinedRequests(){
   if(badge){ badge.textContent = pending.toLocaleString('bn-BD'); }
   const body = $('#notificationRows');
   if(!body) return;
-  body.innerHTML = (db.requests||[]).map(r => `<tr><td>${esc(r.date)}</td><td>${esc(r.role)}</td><td><b>${esc(r.name)}</b></td><td>${r.qty} ${esc(r.unit)}</td><td>${esc(r.note||'—')}</td><td>${esc(r.status)}</td><td>${r.status==='কেনa হয়েছে'?'সম্পন্ন':`<button type="button" onclick="completeRequest(${r.id})">কেনা হয়েছে</button>`}</td></tr>`).join('') || '<tr><td colspan="7" class="empty">কোনো চাহিদা নেই</td></tr>';
+  body.innerHTML = (db.requests||[]).map(r => `<tr><td>${esc(r.date)}</td><td>${esc(r.role)}</td><td><b>${esc(r.name)}</b></td><td>${r.qty} ${esc(r.unit)}</td><td>${esc(r.note||'—')}</td><td>${esc(r.status)}</td><td>${r.status==='কেনা হয়েছে'?'সম্পন্ন':`<button type="button" onclick="completeRequest(${r.id})">কেনা হয়েছে</button>`}</td></tr>`).join('') || '<tr><td colspan="7" class="empty">কোনো চাহিদা নেই</td></tr>';
 }
 </script>
 </body>
