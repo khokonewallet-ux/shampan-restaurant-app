@@ -29,9 +29,13 @@
 <section id="shampanLogin" class="card" style="max-width:440px;margin:30px auto;padding:20px">
 <h2 style="margin-top:0;font-size:20px">Login</h2>
 <div style="display:grid;gap:12px">
-  <label style="display:grid;gap:5px;font-size:12px;color:var(--muted)">Login ID<input id="shampanId" placeholder="যেমন: owner01"></label>
-  <label style="display:grid;gap:5px;font-size:12px;color:var(--muted)">Password<input id="shampanPw" type="password" placeholder="Password"></label>
-  <button type="button" onclick="doLogin()" style="margin-top:5px">প্রবেশ করুন</button>
+  <label style="display:grid;gap:5px;font-size:12px;color:var(--muted)">Login ID
+    <input id="shampanId" placeholder="যেমন: owner01" autocomplete="off">
+  </label>
+  <label style="display:grid;gap:5px;font-size:12px;color:var(--muted)">Password
+    <input id="shampanPw" type="password" placeholder="Password">
+  </label>
+  <button id="loginBtn" type="button" style="margin-top:5px">প্রবেশ করুন</button>
 </div>
 </section>
 
@@ -83,7 +87,7 @@ function showToast(msg, isError = false) {
   setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 250); }, 2500);
 }
 
-// FIREBASE
+// FIREBASE INIT
 const firebaseConfig = {
   apiKey: "AIzaSyDIkg9dy09aBANFgIflOgtmA49FgIflOgt",
   authDomain: "shampan-restaurant.firebaseapp.com",
@@ -138,43 +142,38 @@ function renderSelectOptions(){
   });
 }
 
-// DIRECT LOGIN FUNCTION (NO FORM SUBMIT)
-function doLogin() {
-  const idInput = $('#shampanId');
-  const pwInput = $('#shampanPw');
-  
-  if(!idInput || !pwInput) return;
-  
-  const id = idInput.value.trim().toLowerCase();
-  const pw = pwInput.value.trim();
+// ULTRA-SIMPLE LOGIN HANDLER
+document.getElementById('loginBtn').onclick = function() {
+  const u = (document.getElementById('shampanId').value || '').trim();
+  const p = (document.getElementById('shampanPw').value || '').trim();
 
-  if (id === 'owner01' && pw === 'Own@12345') {
-    showToast('Owner হিসেবে লগইন হয়েছে!');
-    $('#shampanLogin').style.display = 'none';
-    $('#ownerLayout').style.display = 'grid';
-  } else if (id === 'chef01' && pw === 'Chef@12345') {
-    showToast('Chef হিসেবে লগইন হয়েছে!');
-    $('#shampanLogin').style.display = 'none';
-    $('#roleTools').style.display = 'block';
-    $('#chefTools').style.display = 'block';
-    $('#juiceTools').style.display = 'none';
-  } else if (id === 'juice01' && pw === 'Juice@12345') {
-    showToast('Juice Bar হিসেবে লগইন হয়েছে!');
-    $('#shampanLogin').style.display = 'none';
-    $('#roleTools').style.display = 'block';
-    $('#chefTools').style.display = 'none';
-    $('#juiceTools').style.display = 'block';
+  if(u === 'owner01' && p === 'Own@12345') {
+    showToast('লগইন সফল!');
+    document.getElementById('shampanLogin').style.display = 'none';
+    document.getElementById('ownerLayout').style.display = 'grid';
+  } else if(u === 'chef01' && p === 'Chef@12345') {
+    showToast('Chef লগইন সফল!');
+    document.getElementById('shampanLogin').style.display = 'none';
+    document.getElementById('roleTools').style.display = 'block';
+    document.getElementById('chefTools').style.display = 'block';
+    document.getElementById('juiceTools').style.display = 'none';
+  } else if(u === 'juice01' && p === 'Juice@12345') {
+    showToast('Juice Bar লগইন সফল!');
+    document.getElementById('shampanLogin').style.display = 'none';
+    document.getElementById('roleTools').style.display = 'block';
+    document.getElementById('chefTools').style.display = 'none';
+    document.getElementById('juiceTools').style.display = 'block';
   } else {
-    showToast('ID বা Password ভুল হয়েছে!', true);
+    showToast('ID বা Password ভুল!', true);
   }
-}
+};
 
 function shampanLogout(){
-  $('#ownerLayout').style.display = 'none';
-  $('#roleTools').style.display = 'none';
-  $('#shampanLogin').style.display = 'block';
-  if($('#shampanId')) $('#shampanId').value = '';
-  if($('#shampanPw')) $('#shampanPw').value = '';
+  document.getElementById('ownerLayout').style.display = 'none';
+  document.getElementById('roleTools').style.display = 'none';
+  document.getElementById('shampanLogin').style.display = 'block';
+  document.getElementById('shampanId').value = '';
+  document.getElementById('shampanPw').value = '';
   showToast('লগআউট করা হয়েছে');
 }
 
