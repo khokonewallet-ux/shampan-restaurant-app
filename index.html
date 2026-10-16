@@ -9,46 +9,78 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
 :root{--green:#143c2b;--green2:#1f6846;--gold:#e3c77b;--bg:#f4f7f4;--card:#fff;--text:#17251d;--muted:#68766d;--line:#e2e9e3;--red:#b93838}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:11px 14px;background:var(--green2);color:white;font-weight:650}button.secondary{background:#edf3ee;color:var(--green)}button.danger{background:#fff0ef;color:var(--red)}.shell{max-width:1100px;margin:auto;min-height:100vh}.top{background:var(--green);color:white;padding:20px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:12px}.logo{height:46px;width:46px;background:var(--gold);color:var(--green);display:grid;place-items:center;border-radius:13px;font-size:23px}.brand h1{margin:0;font-size:22px;letter-spacing:1.4px}.brand p{margin:2px 0 0;color:#d1e2d5;font-size:12px}.demo{font-size:11px;background:#28513f;padding:6px 10px;border-radius:20px;color:#e3c77b}.layout{display:grid;grid-template-columns:210px 1fr;gap:18px;padding:18px}.nav{background:white;border:1px solid var(--line);border-radius:16px;padding:10px;height:max-content;position:sticky;top:12px}.nav button{width:100%;text-align:left;margin:3px 0;background:transparent;color:var(--text);font-weight:550}.nav button.active,.nav button:hover{background:#e7f2e9;color:var(--green)}main{min-width:0}.heading{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:3px 0 16px}.heading h2{margin:0;font-size:23px}.muted{color:var(--muted);font-size:13px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:16px}.stat .label{color:var(--muted);font-size:13px}.stat strong{display:block;font-size:24px;margin:7px 0 2px}.stat .ico{font-size:20px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card h3{margin:0 0 13px;font-size:16px}.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:13px;color:var(--muted)}input,select{width:100%;border:1px solid #d6e0d7;border-radius:10px;padding:11px 12px;background:#fff;color:var(--text);min-width:0}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--line);white-space:nowrap}th{font-size:12px;color:var(--muted);font-weight:650}.pill{display:inline-block;padding:4px 8px;border-radius:20px;font-size:11px;background:#e5f3e8;color:#1b6b3d}.pill.warn{background:#fff2d8;color:#95620b}.pill.red{background:#fff0ef;color:#b93838}.rowitem{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.rowitem:last-child{border:0}.empty{color:var(--muted);text-align:center;padding:22px}.footer{padding:0 20px 20px;color:var(--muted);font-size:12px}.notice{background:#fff7e6;border:1px solid #f1dfb7;border-radius:12px;padding:12px;font-size:13px;margin-top:14px}.hidden{display:none!important}
-@media(max-width:760px){.layout{grid-template-columns:1fr;padding:12px}.nav{position:static;display:grid;grid-template-columns:repeat(3,1fr);gap:3px}.nav button{text-align:center;padding:10px 5px;font-size:12px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2{grid-template-columns:1fr}.top{padding:16px}.heading h2{font-size:21px}.stat strong{font-size:21px}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Noto Sans Bengali",sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:12px 16px;background:var(--green2);color:white;font-weight:650}button.secondary{background:#edf3ee;color:var(--green)}button.danger{background:#fff0ef;color:var(--red)}.shell{max-width:1100px;margin:auto;min-height:100vh}.top{background:var(--green);color:white;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:12px}.logo{height:42px;width:42px;background:var(--gold);color:var(--green);display:grid;place-items:center;border-radius:12px;font-size:20px;font-weight:bold}.brand h1{margin:0;font-size:20px;letter-spacing:1px}.brand p{margin:2px 0 0;color:#d1e2d5;font-size:11px}.badge{font-size:11px;background:#28513f;padding:5px 10px;border-radius:20px;color:#e3c77b;font-weight:bold}.layout{display:grid;grid-template-columns:200px 1fr;gap:16px;padding:16px}.nav{background:white;border:1px solid var(--line);border-radius:14px;padding:8px;height:max-content;position:sticky;top:12px}.nav button{width:100%;text-align:left;margin:3px 0;background:transparent;color:var(--text);font-weight:550;padding:10px;border-radius:8px}.nav button.active,.nav button:hover{background:#e7f2e9;color:var(--green)}main{min-width:0}.heading{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.heading h2{margin:0;font-size:21px}.muted{color:var(--muted);font-size:13px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}.stat .label{color:var(--muted);font-size:12px}.stat strong{display:block;font-size:22px;margin:5px 0 0}.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:12px;color:var(--muted);font-weight:600}input,select{width:100%;border:1px solid #d6e0d7;border-radius:10px;padding:11px 12px;background:#fff;color:var(--text);min-width:0}.actions{display:flex;gap:8px;margin-top:10px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap}th{font-size:11px;color:var(--muted);font-weight:700}.empty{color:var(--muted);text-align:center;padding:20px}.footer{padding:0 20px 20px;color:var(--muted);font-size:11px;text-align:center}.hidden{display:none!important}
+
+/* --- TOAST NOTIFICATION --- */
+#toastBox { position: fixed; top: 16px; right: 16px; z-index: 99999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+.toast { background: #143c2b; color: white; padding: 12px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; box-shadow: 0 4px 12px rgba(0,0,0,0.15); opacity: 0; transform: translateY(-15px); transition: all 0.25s ease; border-left: 4px solid #e3c77b; }
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.error { background: #b93838; border-left-color: #ffb3b3; }
+
+@media(max-width:760px){.layout{grid-template-columns:1fr;padding:10px}.nav{position:static;display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.nav button{text-align:center;padding:8px 4px;font-size:11px}.stats{grid-template-columns:repeat(2,1fr)}.top{padding:14px}.heading h2{font-size:19px}#toastBox{top:10px;left:10px;right:10px;}}
 @media(max-width:390px){.form{grid-template-columns:1fr}.field.full{grid-column:auto}.nav{grid-template-columns:repeat(2,1fr)}}
-#shampanLogin label{display:grid;gap:6px;color:var(--muted);font-size:13px}#roleTools{margin-top:18px}
+#shampanLogin label{display:grid;gap:5px;color:var(--muted);font-size:12px}#roleTools{margin-top:16px}
 </style></head>
-<body><div class="shell">
-<header class="top"><div class="brand"><div class="logo">♨</div><div><h1>SHAMPAN</h1><p>ROOFTOP · RESTAURANT MANAGEMENT</p></div></div><span class="demo" id="topBadge">ONLINE PRO</span></header>
-<section id="shampanLogin" class="card" style="max-width:520px;margin:24px auto;padding:22px">
-<h2 style="margin-top:0">SHAMPAN App Login</h2><p class="muted">Owner, Kitchen/Chef অথবা Juice Bar ID ও Password দিয়ে প্রবেশ করুন।</p>
-<form id="shampanLoginForm" style="display:grid;gap:12px"><label>Login ID<input id="shampanId" required autocomplete="username" placeholder="যেমন chef01"></label><label>Password<input id="shampanPw" type="password" required autocomplete="current-password" placeholder="Password"></label><button>Login করুন</button><div id="shampanLoginError" style="color:#b93838;font-size:13px"></div></form>
+<body>
+<div id="toastBox"></div>
+
+<div class="shell">
+<header class="top"><div class="brand"><div class="logo">♨</div><div><h1>SHAMPAN</h1><p>RESTAURANT MANAGEMENT</p></div></div><span class="badge">ONLINE PRO</span></header>
+
+<section id="shampanLogin" class="card" style="max-width:440px;margin:30px auto;padding:20px">
+<h2 style="margin-top:0;font-size:20px">Login</h2>
+<form id="shampanLoginForm" style="display:grid;gap:12px"><label>Login ID<input id="shampanId" required autocomplete="username" placeholder="যেমন: chef01"></label><label>Password<input id="shampanPw" type="password" required autocomplete="current-password" placeholder="Password"></label><button type="submit" style="margin-top:5px">প্রবেশ করুন</button></form>
 </section>
-<section id="roleTools" class="card" style="display:none;margin:16px;max-width:1100px;margin-left:auto;margin-right:auto"><div class="heading"><div><h2 id="roleTitle">Staff</h2><div id="roleDesc" class="muted"></div></div><button class="secondary" type="button" onclick="shampanLogout()">Logout</button></div>
-<div id="chefTools" style="display:none"><h3>Kitchen / Chef — বাজারের চাহিদা পাঠান</h3><form id="chefRequestForm" class="form"><div class="field"><label>পণ্যের নাম</label><input name="name" required placeholder="যেমন Beef"></div><div class="field"><label>পরিমাণ</label><input name="qty" type="number" min="0.1" step="0.1" required></div><div class="field"><label>একক</label><select name="unit"><option>কেজি</option><option>লিটার</option><option>পিস</option><option>প্যাকেট</option><option>বস্তা</option></select></div><div class="field"><label>কারণ / নোট</label><input name="note" placeholder="দৈনিক রান্না"></div><div class="field full"><button>Owner-এর জন্য চাহিদা জমা দিন</button></div></form><p class="muted" id="chefMsg"></p></div>
-<div id="juiceTools" style="display:none"><h3>Juice Bar — স্টক ও বাজারের চাহিদা</h3><form id="juiceRequestForm" class="form"><div class="field"><label>উপকরণের নাম</label><input name="name" required placeholder="কমলা / লেবু / দুধ"></div><div class="field"><label>বর্তমান স্টক</label><input name="stock" type="number" min="0" step="0.1" required></div><div class="field"><label>প্রয়োজনীয় পরিমাণ</label><input name="qty" type="number" min="0.1" step="0.1" required></div><div class="field"><label>একক</label><select name="unit"><option>কেজি</option><option>লিটার</option><option>পিস</option><option>প্যাকেট</option></select></div><div class="field full"><button>Juice Bar চাহিদা জমা দিন</button></div></form><p class="muted" id="juiceMsg"></p></div>
+
+<section id="roleTools" class="card" style="display:none;margin:16px;max-width:1100px;margin-left:auto;margin-right:auto"><div class="heading"><div><h2 id="roleTitle">Staff</h2></div><button class="secondary" type="button" onclick="shampanLogout()">Logout</button></div>
+<div id="chefTools" style="display:none"><h3>Kitchen / Chef — বাজারের চাহিদা</h3><form id="chefRequestForm" class="form"><div class="field full"><label>পণ্যের নাম (বাছুন)</label><select name="name" id="chefSelectProduct" required><option value="">পণ্য নির্বাচন করুন</option></select></div><div class="field"><label>পরিমাণ</label><input name="qty" type="number" min="0.1" step="0.1" required></div><div class="field"><label>একক</label><select name="unit" id="chefUnit"><option>কেজি</option><option>লিটার</option><option>পিস</option><option>প্যাকেট</option><option>বস্তা</option></select></div><div class="field full"><label>নোট (ঐচ্ছিক)</label><input name="note" placeholder="যেমন: জরুরি"></div><div class="field full"><button type="submit">চাহিদা পাঠান</button></div></form></div>
+<div id="juiceTools" style="display:none"><h3>Juice Bar — বাজারের চাহিদা</h3><form id="juiceRequestForm" class="form"><div class="field full"><label>উপকরণের নাম (বাছুন)</label><select name="name" id="juiceSelectProduct" required><option value="">পণ্য নির্বাচন করুন</option></select></div><div class="field"><label>বর্তমান স্টক</label><input name="stock" type="number" min="0" step="0.1" required></div><div class="field"><label>প্রয়োজনীয় পরিমাণ</label><input name="qty" type="number" min="0.1" step="0.1" required></div><div class="field full"><label>একক</label><select name="unit" id="juiceUnit"><option>কেজি</option><option>লিটার</option><option>পিস</option><option>প্যাকেট</option></select></div><div class="field full"><button type="submit">চাহিদা পাঠান</button></div></form></div>
 </section>
+
 <div class="layout" id="ownerLayout" style="display:none">
-<nav class="nav" aria-label="Main menu">
-<button class="active" data-page="home">▦ ড্যাশবোর্ড</button><button data-page="notifications" id="notificationNav">🔔 নোটিফিকেশন <span id="notificationBadge" style="display:inline-block;background:#b93838;color:#fff;border-radius:12px;padding:2px 7px;font-size:11px;margin-left:4px">০</span></button><button data-page="sales">৳ বিক্রি</button><button data-page="cash">▣ ক্যাশিয়ার</button><button data-page="stock">▤ স্টক ও বাজার</button><button data-page="products">＋ পণ্য তৈরি</button><button data-page="staff">♙ স্টাফ</button><button data-page="booking">▦ বুকিং</button><button data-page="owner">◷ মালিকের রিপোর্ট</button><button data-page="users">♙ User ID তৈরি</button><button data-page="settings">⚙ ডেটা ব্যাকআপ</button>
+<nav class="nav">
+<button type="button" class="active" data-page="home">▦ ড্যাশবোর্ড</button><button type="button" data-page="notifications" id="notificationNav">🔔 চাহিদা <span id="notificationBadge" style="background:#b93838;color:#fff;border-radius:10px;padding:2px 6px;font-size:10px;margin-left:3px">০</span></button><button type="button" data-page="sales">৳ বিক্রি</button><button type="button" data-page="cash">▣ ক্যাশিয়ার</button><button type="button" data-page="stock">▤ স্টক ও বাজার</button><button type="button" data-page="products">＋ নতুন পণ্য</button><button type="button" data-page="staff">♙ স্টাফ</button><button type="button" data-page="booking">▦ বুকিং</button><button type="button" data-page="owner">◷ রিপোর্ট</button>
 </nav>
 <main>
 <section id="home" class="page">
-<div class="heading"><div><h2>ড্যাশবোর্ড</h2><div class="muted" id="today"></div></div><button onclick="show('sales')">＋ বিক্রি যোগ</button></div>
-<div class="stats"><div class="stat"><span class="ico">↗</span><div class="label">আজকের বিক্রি</div><strong id="statSales">৳০</strong><div class="muted">এন্ট্রি করা বিক্রি</div></div><div class="stat"><span class="ico">▣</span><div class="label">অর্ডার</div><strong id="statOrders">০</strong><div class="muted">মোট বিল</div></div><div class="stat"><span class="ico">▦</span><div class="label">বুকিং</div><strong id="statBookings">০</strong><div class="muted">মোট বুকিং</div></div><div class="stat"><span class="ico">⚠</span><div class="label">কম স্টক</div><strong id="statLow">০</strong><div class="muted">পুনরায় কিনুন</div></div></div>
-<div class="grid2"><div class="card"><h3>সাম্প্রতিক বিক্রি</h3><div id="recentSales"></div></div><div class="card"><h3>স্টক সতর্কতা</h3><div id="lowStock"></div></div></div>
+<div class="heading"><div><h2>ড্যাশবোর্ড</h2><div class="muted" id="today"></div></div><button type="button" onclick="show('sales')">＋ বিক্রি</button></div>
+<div class="stats"><div class="stat"><div class="label">আজকের বিক্রি</div><strong id="statSales">৳০</strong></div><div class="stat"><div class="label">অর্ডার</div><strong id="statOrders">০</strong></div><div class="stat"><div class="label">বুকিং</div><strong id="statBookings">০</strong></div><div class="stat"><div class="label">কম স্টক</div><strong id="statLow">০</strong></div></div>
 </section>
-<section id="notifications" class="page hidden"><div class="heading"><div><h2>🔔 বাজারের চাহিদা নোটিফিকেশন</h2><div class="muted">Chef ও Juice Bar-এর জমা দেওয়া চাহিদা এখানে দেখুন</div></div><button class="secondary" onclick="show('owner')">মালিকের রিপোর্টে যান</button></div><div class="card"><div id="notificationSummary" style="margin:12px 0;font-weight:700"></div><div class="tablewrap"><table><thead><tr><th>তারিখ</th><th>বিভাগ</th><th>পণ্য</th><th>চাহিদা</th><th>নোট</th><th>অবস্থা</th><th>কাজ</th></tr></thead><tbody id="notificationRows"><tr><td colspan="7" class="empty">এখনো কোনো চাহিদা নেই</td></tr></tbody></table></div></div></section>
-<section id="sales" class="page hidden"><div class="heading"><div><h2>বিক্রি এন্ট্রি</h2><div class="muted">প্রতিটি বিল যোগ করুন</div></div></div><div class="card"><form id="salesForm"><div class="form"><div class="field"><label>বিল / টেবিলের নাম</label><input name="title" placeholder="যেমন: Table 05" required></div><div class="field"><label>বিলের পরিমাণ (৳)</label><input name="amount" type="number" min="1" step=".01" placeholder="2500" required></div><div class="field"><label>পেমেন্ট</label><select name="method"><option>Cash</option><option>bKash</option><option>Nagad</option><option>Card</option><option>Bank</option></select></div><div class="field"><label>তারিখ</label><input name="date" type="date" required></div></div><div class="actions"><button>বিক্রি সেভ করুন</button></div></form></div><div class="card" style="margin-top:14px"><h3>বিক্রির তালিকা</h3><div class="tablewrap"><table><thead><tr><th>তারিখ</th><th>বিল</th><th>পেমেন্ট</th><th>টাকা</th><th></th></tr></thead><tbody id="salesRows"></tbody></table></div></div></section>
-<section id="cash" class="page hidden"><div class="heading"><div><h2>ক্যাশিয়ার রিপোর্ট</h2></div></div><div class="card"><form id="cashForm"><div class="form"><div class="field"><label>শুরুর ক্যাশ (৳)</label><input name="opening" type="number" min="0" value="0" required></div><div class="field"><label>দিনের খরচ (৳)</label><input name="expense" type="number" min="0" value="0" required></div><div class="field"><label>বাস্তবে গুনে পাওয়া ক্যাশ (৳)</label><input name="actual" type="number" min="0" value="0" required></div></div><div class="actions"><button>রিপোর্ট হিসাব করুন</button></div></form><div id="cashReport" style="margin-top:16px"></div></div></section>
-<section id="stock" class="page hidden"><div class="heading"><div><h2>স্টক ও দৈনিক বাজার</h2></div></div><div class="card"><form id="stockForm"><div class="form"><div class="field"><label>মালামালের নাম</label><select name="name" id="purchaseProduct" required><option value="">পণ্য বাছুন</option></select></div><div class="field"><label>কেনা পরিমাণ</label><input name="qty" type="number" min="0.01" step=".01" placeholder="25" required></div><div class="field"><label>একক</label><select name="unit"><option>কেজি</option><option>লিটার</option><option>পিস</option><option>প্যাকেট</option><option>বস্তা</option></select></div><div class="field"><label>প্রতি এককের দাম (৳)</label><input name="price" type="number" min="0" step=".01" placeholder="যেমন: 75" required></div><div class="field"><label>কেনার তারিখ</label><input name="purchaseDate" type="date" required></div><div class="field"><label>সতর্কতার সর্বনিম্ন পরিমাণ</label><input name="min" type="number" min="0" step=".01" value="5" required></div></div><div class="actions"><button>বাজার এন্ট্রি সেভ করুন</button></div></form></div><div class="card" style="margin-top:14px"><h3>বর্তমান স্টক</h3><div class="tablewrap"><table><thead><tr><th>নাম</th><th>পরিমাণ</th><th>সর্বনিম্ন</th><th>অবস্থা</th><th></th></tr></thead><tbody id="stockRows"></tbody></table></div></div></section>
-<section id="products" class="page hidden"><div class="heading"><div><h2>＋ পণ্য তৈরি / Product List</h2></div></div><div class="card"><form id="productForm" class="form"><div class="field"><label>পণ্যের নাম</label><input name="name" required placeholder="যেমন Mutton"></div><div class="field"><label>সাধারণ একক</label><select name="unit"><option>কেজি</option><option>লিটার</option><option>পিস</option><option>প্যাকেট</option></select></div><div class="field full"><button>পণ্য তৈরি করুন</button></div></form></div><div class="card" style="margin-top:14px"><h3>তৈরি করা পণ্য</h3><div class="tablewrap"><table><thead><tr><th>পণ্যের নাম</th><th>একক</th><th>কাজ</th></tr></thead><tbody id="productRows"></tbody></table></div></div></section>
-<section id="staff" class="page hidden"><div class="heading"><div><h2>স্টাফ ম্যানেজমেন্ট</h2></div></div><div class="card"><form id="staffForm"><div class="form"><div class="field"><label>কর্মচারীর নাম</label><input name="name" required></div><div class="field"><label>পদ</label><select name="role"><option>ওয়েটার</option><option>শেফ</option><option>ক্যাশিয়ার</option></select></div><div class="field"><label>মাসিক বেতন (৳)</label><input name="salary" type="number" required></div></div><div class="actions"><button>স্টাফ যোগ করুন</button></div></form></div><div class="card" style="margin-top:14px"><div class="tablewrap"><table><thead><tr><th>নাম</th><th>পদ</th><th>বেতন</th><th></th></tr></thead><tbody id="staffRows"></tbody></table></div></div></section>
-<section id="booking" class="page hidden"><div class="heading"><div><h2>অনুষ্ঠান ও বুকিং</h2></div></div><div class="card"><form id="bookingForm"><div class="form"><div class="field"><label>গ্রাহক / অনুষ্ঠানের নাম</label><input name="name" required></div><div class="field"><label>তারিখ</label><input name="date" type="date" required></div><div class="field"><label>অতিথির সংখ্যা</label><input name="people" type="number" required></div></div><div class="actions"><button>বুকিং সেভ করুন</button></div></form></div><div class="card" style="margin-top:14px"><div class="tablewrap"><table><thead><tr><th>নাম</th><th>তারিখ</th><th>অতিথি</th><th></th></tr></thead><tbody id="bookingRows"></tbody></table></div></div></section>
-<section id="owner" class="page hidden"><div class="heading"><div><h2>মালিকের রিপোর্ট</h2></div></div><div class="card"><h3>Kitchen / Juice Bar বাজারের চাহিদা</h3><div class="tablewrap"><table><thead><tr><th>তারিখ</th><th>বিভাগ</th><th>পণ্য</th><th>চাহিদা</th><th>নোট</th><th>অবস্থা</th><th>কাজ</th></tr></thead><tbody id="combinedRequestRows"><tr><td colspan="7" class="empty">এখনো কোনো চাহিদা নেই</td></tr></tbody></table></div></div></section>
-<section id="users" class="page hidden"><div class="heading"><div><h2>User ID তৈরি</h2></div></div></section>
-<section id="settings" class="page hidden"><div class="heading"><div><h2>ডেটা ব্যাকআপ</h2></div></div></section>
+
+<section id="notifications" class="page hidden"><div class="heading"><div><h2>🔔 বাজারের চাহিদা</h2></div></div><div class="card"><div class="tablewrap"><table><thead><tr><th>তারিখ</th><th>বিভাগ</th><th>পণ্য</th><th>পরিমাণ</th><th>নোট</th><th>অবস্থা</th><th>কাজ</th></tr></thead><tbody id="notificationRows"><tr><td colspan="7" class="empty">কোনো চাহিদা নেই</td></tr></tbody></table></div></div></section>
+
+<section id="sales" class="page hidden"><div class="heading"><div><h2>বিক্রি এন্ট্রি</h2></div></div><div class="card"><form id="salesForm"><div class="form"><div class="field"><label>টেবিল / বিল</label><input name="title" placeholder="Table 01" required></div><div class="field"><label>পরিমাণ (৳)</label><input name="amount" type="number" min="1" step=".01" placeholder="1000" required></div><div class="field"><label>পেমেন্ট</label><select name="method"><option>Cash</option><option>bKash</option><option>Nagad</option><option>Card</option></select></div><div class="field"><label>তারিখ</label><input name="date" type="date" required></div></div><div class="actions"><button type="submit">সেভ করুন</button></div></form></div></section>
+
+<section id="stock" class="page hidden"><div class="heading"><div><h2>স্টক ও বাজার</h2></div></div><div class="card"><form id="stockForm"><div class="form"><div class="field full"><label>পণ্য (বাছুন)</label><select name="name" id="purchaseProduct" required><option value="">পণ্য বাছুন</option></select></div><div class="field"><label>পরিমাণ</label><input name="qty" type="number" min="0.01" step=".01" required></div><div class="field"><label>একক</label><select name="unit" id="stockUnit"><option>কেজি</option><option>লিটার</option><option>পিস</option><option>প্যাকেট</option><option>বস্তা</option></select></div><div class="field"><label>এককের দাম (৳)</label><input name="price" type="number" min="0" step=".01" required></div><div class="field"><label>তারিখ</label><input name="purchaseDate" type="date" required></div></div><div class="actions"><button type="submit">বাজার এন্ট্রি সেভ</button></div></form></div></section>
+
+<section id="products" class="page hidden"><div class="heading"><div><h2>＋ নতুন পণ্য তৈরি</h2></div></div><div class="card"><form id="productForm" class="form"><div class="field"><label>পণ্যের নাম</label><input name="name" required placeholder="যেমন: খাসির মাংস"></div><div class="field"><label>একক</label><select name="unit"><option>কেজি</option><option>লিটার</option><option>পিস</option><option>প্যাকেট</option></select></div><div class="field full"><button type="submit">পণ্য সেভ করুন</button></div></form></div></section>
+
+<section id="cash" class="page hidden"><div class="heading"><h2>ক্যাশিয়ার রিপোর্ট</h2></div></section>
+<section id="staff" class="page hidden"><div class="heading"><h2>স্টাফ ম্যানেজমেন্ট</h2></div></section>
+<section id="booking" class="page hidden"><div class="heading"><h2>বুকিং</h2></div></section>
+<section id="owner" class="page hidden"><div class="heading"><h2>মালিকের রিপোর্ট</h2></div></section>
 </main></div>
-<div class="footer">SHAMPAN Restaurant Management · All Rights Reserved</div></div>
+<div class="footer">SHAMPAN Management System</div></div>
 
 <script>
-// --- AUTOMATICALLY CONFIGURED FIREBASE ---
+const DEFAULT_PRODUCTS = [
+  'গরুর মাংস (Beef)', 'খাসির মাংস (Mutton)', 'মুরগির মাংস (Chicken)', 'রুই মাছ', 'কাতলা মাছ', 'চিংড়ি',
+  'চাল (Miniket)', 'পোলাও চাল', 'বাসমতী চাল', 'মসুর ডাল', 'মুগ ডাল', 'আটা', 'ময়দা', 'সয়াবিন তেল', 'সরিষার তেল', 'ঘি',
+  'পেঁয়াজ', 'রসুন', 'আদা', 'কাঁচামরিচ', 'আলু', 'টমেটো', 'হলুদ গুঁড়া', 'মরিচ গুঁড়া', 'জিরা গুঁড়া', 'গরম মসলা',
+  'চিনি', 'লবণ', 'ডিম', 'দুধ', 'মাখন', 'কমলা', 'লেবু', 'আপেল', 'মিনারেল ওয়াটার', 'সফট ড্রিংকস', 'চা পাতা', 'কফি', 'পার্সেল বক্স', 'টিস্যু'
+];
+
+function showToast(msg, isError = false) {
+  const box = document.getElementById('toastBox');
+  const toast = document.createElement('div');
+  toast.className = 'toast' + (isError ? ' error' : '');
+  toast.innerHTML = (isError ? '⚠️ ' : '✅ ') + msg;
+  box.appendChild(toast);
+  setTimeout(() => toast.classList.add('show'), 50);
+  setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 250); }, 2500);
+}
+
+// --- FIREBASE CONFIGURATION ---
 const firebaseConfig = {
   apiKey: "AIzaSyDIkg9dy09aBANFgIflOgtmA49FgIflOgt",
   authDomain: "shampan-restaurant.firebaseapp.com",
@@ -59,99 +91,129 @@ const firebaseConfig = {
   appId: "1:242819003667:web:296423af6ee99cdd219se6"
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
 const dbRef = firebase.database().ref('shampan_data');
-
-let db = { sales:[], products:[], purchases:[], operatingCosts:[], requests:[], stock:[], staff:[], bookings:[], cash:{opening:0,expense:0,actual:0} };
+let db = { sales:[], products:[], purchases:[], requests:[], stock:[] };
 
 dbRef.on('value', (snapshot) => {
   const data = snapshot.val();
-  if (data) {
-    db = data;
-    if(!db.requests) db.requests = [];
-    if(!db.sales) db.sales = [];
-    render();
-  }
+  if (data) { db = data; if(!db.requests) db.requests = []; if(!db.products) db.products = []; render(); }
 });
 
-function save(){
-  dbRef.set(db);
-}
+function save(){ dbRef.set(db); }
 
-const $ = s => document.querySelector(s), money = n => '৳'+Number(n||0).toLocaleString('en-BD',{maximumFractionDigits:2}), esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $ = s => document.querySelector(s), money = n => '৳'+Number(n||0).toLocaleString('en-BD'), esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]);
 const today = new Date().toISOString().slice(0,10);
-$('#today').textContent = new Date().toLocaleDateString('bn-BD',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+const todayEl = $('#today'); if(todayEl) todayEl.textContent = new Date().toLocaleDateString('bn-BD',{weekday:'short',day:'numeric',month:'short'});
 
 function show(page){
   document.querySelectorAll('.page').forEach(p => p.classList.toggle('hidden', p.id!==page));
   document.querySelectorAll('.nav button').forEach(b => b.classList.toggle('active', b.dataset.page===page));
   window.scrollTo({top:0,behavior:'smooth'});
 }
-document.querySelectorAll('.nav button').forEach(b => b.addEventListener('click', () => show(b.dataset.page)));
+document.querySelectorAll('.nav button').forEach(b => b.addEventListener('click', (e) => { e.preventDefault(); show(b.dataset.page); }));
 
 function render(){
   const salesTotal = (db.sales||[]).reduce((a,x) => a + Number(x.amount),0);
-  $('#statSales').textContent = money(salesTotal);
+  const salesEl = $('#statSales'); if(salesEl) salesEl.textContent = money(salesTotal);
+  renderSelectOptions();
   renderCombinedRequests();
 }
 
-$('#chefRequestForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const f = new FormData(e.target);
-  if(!db.requests) db.requests = [];
-  db.requests.unshift({
-    id: Date.now(),
-    date: new Date().toISOString().slice(0,10),
-    role: 'Kitchen / Chef',
-    name: String(f.get('name')).trim(),
-    qty: Number(f.get('qty')),
-    unit: f.get('unit'),
-    note: String(f.get('note')||''),
-    status: 'অপেক্ষমাণ'
+function renderSelectOptions(){
+  const custom = (db.products||[]).map(x=>x.name);
+  const allNames = [...new Set([...DEFAULT_PRODUCTS, ...custom])].sort((a,b)=>a.localeCompare(b, 'bn'));
+  const optionsHtml = '<option value="">পণ্য নির্বাচন করুন</option>' + allNames.map(n => `<option value="${esc(n)}">${esc(n)}</option>`).join('');
+  
+  ['#purchaseProduct', '#chefSelectProduct', '#juiceSelectProduct'].forEach(id => {
+    const el = $(id);
+    if(el){
+      const cur = el.value;
+      el.innerHTML = optionsHtml;
+      el.value = cur;
+    }
   });
-  save();
-  $('#chefMsg').textContent = '✅ চাহিদা সরাসরি Owner-এর কাছে পাঠানো হয়েছে!';
-  e.target.reset();
-});
+}
+
+const pForm = $('#productForm');
+if(pForm) {
+  pForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const f = new FormData(e.target), name = String(f.get('name')).trim(), unit = f.get('unit');
+    if(!db.products) db.products = [];
+    db.products.push({id: Date.now(), name, unit});
+    save();
+    showToast('নতুন পণ্য যোগ হয়েছে!');
+    e.target.reset();
+  });
+}
+
+const cForm = $('#chefRequestForm');
+if(cForm) {
+  cForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    if(!db.requests) db.requests = [];
+    db.requests.unshift({
+      id: Date.now(), date: today, role: 'Kitchen / Chef',
+      name: String(f.get('name')).trim(), qty: Number(f.get('qty')), unit: f.get('unit'), note: String(f.get('note')||''), status: 'অপেক্ষমাণ'
+    });
+    save();
+    showToast('চাহিদা পাঠানো হয়েছে!');
+    e.target.reset();
+  });
+}
+
+const sForm = $('#stockForm');
+if(sForm) {
+  sForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const f = new FormData(e.target), name = f.get('name').trim(), qty = Number(f.get('qty')), unit = f.get('unit'), price = Number(f.get('price')), date = f.get('purchaseDate');
+    if(!db.stock) db.stock = [];
+    if(!db.purchases) db.purchases = [];
+    
+    const existing = db.stock.find(x => x.name.toLowerCase() === name.toLowerCase());
+    if(existing){ existing.qty = Number(existing.qty) + qty; } 
+    else { db.stock.push({id: Date.now(), name, qty, unit, min: 5}); }
+    
+    db.purchases.push({id: Date.now()+1, name, qty, unit, price, total: qty*price, date});
+    save();
+    showToast('বাজার এন্ট্রি সেভ হয়েছে!');
+    e.target.reset();
+  });
+}
 
 function renderCombinedRequests(){
   const pending = (db.requests||[]).filter(r => r.status !== 'কেনা হয়েছে').length;
   const badge = $('#notificationBadge');
   if(badge){ badge.textContent = pending.toLocaleString('bn-BD'); }
-  
-  const body = $('#combinedRequestRows');
+  const body = $('#notificationRows');
   if(!body) return;
-  body.innerHTML = (db.requests||[]).map(r => `<tr><td>${esc(r.date)}</td><td>${esc(r.role)}</td><td><b>${esc(r.name)}</b></td><td>${r.qty} ${esc(r.unit)}</td><td>${esc(r.note||'—')}</td><td>${esc(r.status)}</td><td>${r.status==='কেনা হয়েছে'?'সম্পন্ন':`<button onclick="completeRequest(${r.id})">কেনা / দাম যোগ</button>`}</td></tr>`).join('') || '<tr><td colspan="7" class="empty">এখনো কোনো চাহিদা নেই</td></tr>';
+  body.innerHTML = (db.requests||[]).map(r => `<tr><td>${esc(r.date)}</td><td>${esc(r.role)}</td><td><b>${esc(r.name)}</b></td><td>${r.qty} ${esc(r.unit)}</td><td>${esc(r.note||'—')}</td><td>${esc(r.status)}</td><td>${r.status==='কেনা হয়েছে'?'সম্পন্ন':`<button type="button" onclick="completeRequest(${r.id})">কেনা হয়েছে</button>`}</td></tr>`).join('') || '<tr><td colspan="7" class="empty">কোনো চাহিদা নেই</td></tr>';
 }
 
-const SHAMPAN_DEFAULT_USERS = {
-  owner:{id:'owner01',pw:'Own@12345'},
-  chef:{id:'chef01',pw:'Chef@12345'},
-  juice:{id:'juice01',pw:'Juice@12345'}
-};
+const SHAMPAN_DEFAULT_USERS = { owner:{id:'owner01',pw:'Own@12345'}, chef:{id:'chef01',pw:'Chef@12345'}, juice:{id:'juice01',pw:'Juice@12345'} };
 
-$('#shampanLoginForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const id = $('#shampanId').value.trim(), pw = $('#shampanPw').value;
-  const role = Object.keys(SHAMPAN_DEFAULT_USERS).find(k => SHAMPAN_DEFAULT_USERS[k].id===id && SHAMPAN_DEFAULT_USERS[k].pw===pw);
-  if(!role){ $('#shampanLoginError').textContent = 'ID অথবা Password সঠিক নয়।'; return; }
-  $('#shampanLogin').style.display = 'none';
-  if(role === 'owner'){
-    $('#ownerLayout').style.display = 'grid';
-  } else {
-    $('#roleTools').style.display = 'block';
-    $('#chefTools').style.display = role==='chef'?'block':'none';
-  }
-});
+const lForm = $('#shampanLoginForm');
+if(lForm) {
+  lForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const id = $('#shampanId').value.trim(), pw = $('#shampanPw').value;
+    const role = Object.keys(SHAMPAN_DEFAULT_USERS).find(k => SHAMPAN_DEFAULT_USERS[k].id===id && SHAMPAN_DEFAULT_USERS[k].pw===pw);
+    if(!role){ showToast('ID বা Password সঠিক নয়', true); return; }
+    showToast('লগইন হয়েছে!');
+    $('#shampanLogin').style.display = 'none';
+    if(role === 'owner'){ $('#ownerLayout').style.display = 'grid'; } 
+    else { $('#roleTools').style.display = 'block'; $('#chefTools').style.display = role==='chef'?'block':'none'; }
+  });
+}
 
 function shampanLogout(){
   $('#ownerLayout').style.display = 'none';
   $('#roleTools').style.display = 'none';
   $('#shampanLogin').style.display = 'block';
+  showToast('লগআউট করা হয়েছে');
 }
 </script>
 </body>
 </html>
-
